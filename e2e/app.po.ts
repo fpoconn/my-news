@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class NyTimesPage {
+export class MyNewsPage {
   navigateTo() {
     return browser.get('/');
   }

@@ -1,1 +1,130 @@
 /* You can add global styles to this file, and also import other style files */
+.container-fluid {
+    padding-left: 3%;
+    padding-right: 10%
+}
+.row {
+    margin-left: 0px;
+}
+.col {
+    padding-left: 0px;
+    padding-right: 5px;
+    padding-bottom: 7px;
+}
+.media {
+    margin-bottom: 15px;
+}
+.media-left{
+    padding-right: 20px;
+}
+
+.story{
+    line-height: 1.2;
+    height: 100%;
+}
+.story > div > header {
+    position: relative
+}
+.story > div > header > div {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  color: white;
+  text-shadow: 0 2px 0 black;
+  background: linear-gradient(
+    to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, .5)
+    );
+    font-size: 16px;
+    padding: 15px;
+}
+.story > div > header > div:hover {
+    cursor: pointer;
+}
+.story > div > :last-child {
+    padding: 7px;
+    background:linear-gradient( to right, rgba(232, 232, 232, 0.50), white);
+}
+.largeStory > div > header > div {
+    font-size: 24px;
+    padding: 20px;
+}
+.largeStory > div > :last-child {
+    padding: 10px;
+}
+.largeStory > div {
+    padding-bottom: 15px;
+}
+
+
+
+
+.other-stories-tiles {
+    display: none;
+}
+.other-stories-list{
+    display: block;
+    padding-left: 10px;
+}
+.other-stories-list > li {
+    cursor: pointer;
+    list-style: none;
+    line-height: 1.2;
+    border-bottom: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: lightgray;
+    padding: 7px;
+}
+
+.other-tile > :last-child{
+    padding: 5px;
+    padding-top: 0px;
+    line-height: 1.2;
+}
+.other-tile > :last-child > :first-child {
+    font-size: 18px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.external-news {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 3%;
+    padding-right:10%;
+}
+.external-news > :first-child{
+    align-self: stretch;
+    text-align: right;
+    background: lightgray;
+}
+.external-news > :last-child > iframe:first-of-type{
+    width: 100%;
+    min-height: calc(100% - 90px);
+}
+span.closePanel{
+    cursor: pointer;
+    font-size: 42px;
+    font-weight: 400;
+    color: white;
+    line-height: 1;
+    padding-right: 15px;
+}
+span.closePanel:before{
+    content: '\00d7';
+}
+
+@media only screen and (max-width: 992px) {
+    .other-stories-list {
+        display: none;
+    }
+    .other-stories-tiles {
+        display: block;
+    }
+}

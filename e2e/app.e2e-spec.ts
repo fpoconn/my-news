@@ -1,10 +1,10 @@
-import { NyTimesPage } from './app.po';
+import { MyNewsPage } from './app.po';
 
-describe('ny-times App', function() {
-  let page: NyTimesPage;
+describe('my-news App', function() {
+  let page: MyNewsPage;
 
   beforeEach(() => {
-    page = new NyTimesPage();
+    page = new MyNewsPage();
   });
 
   it('should display message saying app works', () => {
