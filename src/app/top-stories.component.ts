@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import {Http} from '@angular/http';
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {ArticleComponent } from './article.component';
@@ -16,18 +16,23 @@ import 'rxjs/add/operator/map';
                 <h4 class="media-heading">{{source.name}}</h4>
             </div>
             <div class="media-right media-middle">
-                <ul class="nav nav-pills" style="width: 250px;">
+                <a class="fave" (click)="addToFavorites()" style="margin-right: 30px;">
+                    <span id="faveToggle" [ngClass]="getFaveClass()"></span>
+                </a>
+            </div>
+            <div class="media-right media-middle">
+                <ul class="nav nav-pills nav-pills-style">
                     <li style="float: right;" *ngFor="let order of source.sortBysAvailable" class="nav" [class.active]="selectedOrder == order"><a (click)="selectOrder(order)">{{order}}</a></li>
                 </ul> 
             </div>
         </div>
         <!-- stories -->
         <div *ngIf="articles" class="row">
-            <div class="col col-sm-12 col-md-8">
+            <div class="col col-sm-12 col-md-7">
                 <app-article (selectEvent)="selectStory($event)" class="story largeStory" *ngIf="articles" [article]="articles[0]"></app-article>
             </div>
             <!-- more headlines list -->
-            <div *ngIf="articles.length > 4" class="col col-md-4 other-stories-list">
+            <div *ngIf="articles.length > 4" class="col col-md-5 other-stories-list">
                 <h4 style="padding-left: 5px; margin-bottom: 7px; margin-top: 0px;">More Headlines</h4>
                 <li *ngFor="let article of articles | slice:4"><a (click)="selectStory(article)">{{article.title}}</a></li>
             </div>
@@ -72,8 +77,8 @@ import 'rxjs/add/operator/map';
             </div> <!-- more headlines div -->
         </div> <!-- if articles -->
     </div> <!-- source -->
-    <div *ngIf="!source">
-      <h1>Select a news source.</h1>
+    <div *ngIf="!source" style="text-align: center; margin-top: 50px;">
+      <h2>Select a news source <span style="margin-left: 25px;" class="glyphicon glyphicon-hand-up"></span></h2>
     </div> 
     <div *ngIf="safeUrl" class="external-news">
         <div>
@@ -88,6 +93,8 @@ import 'rxjs/add/operator/map';
 export class TopStoriesComponent implements OnChanges {
 
   @Input() source: any;
+  @Output() faveEvent = new EventEmitter();
+
   selectedOrder: string = 'top';
   articles: any;
   safeUrl: SafeResourceUrl;
@@ -104,7 +111,10 @@ export class TopStoriesComponent implements OnChanges {
     this._http.get('https://newsapi.org/v1/articles?source=' + this.source.id + '&apiKey=247dae28200d460dbc45f38b7ca1a8e1')
         .map(res => res.json()).subscribe(res => { 
           this.articles = res.articles;
-        });                
+        }); 
+
+   // this.setFavoriteClass();
+
   }
 
   selectStory(article){
@@ -119,6 +129,41 @@ export class TopStoriesComponent implements OnChanges {
 
   selectOrder(order){
     this.selectedOrder = order;
+  }
+
+  addToFavorites(){
+    var faves = JSON.parse(localStorage.getItem("favoriteSources"));
+
+    if(!faves) 
+        faves = [];
+    
+    var index = faves.findIndex ( item => item.id === this.source.id);
+    if(index < 0){
+        faves.push(this.source);
+      //  document.getElementById("faveToggle").className = "glyphicon glyphicon-heart";
+    }
+    else{
+        faves.splice(index, 1);
+      //  document.getElementById("faveToggle").className = "glyphicon glyphicon-heart-empty";
+    }
+
+    localStorage.setItem("favoriteSources", JSON.stringify(faves));
+    this.faveEvent.emit("favoriteChanged");
+  }
+
+  getFaveClass(){
+
+    var faves = JSON.parse(localStorage.getItem("favoriteSources"));
+
+    var index = faves.findIndex ( item => item.id === this.source.id);
+
+    if(index > -1){
+        document.getElementById("faveToggle").className = "glyphicon glyphicon-heart";
+    }
+    else{
+        document.getElementById("faveToggle").className = "glyphicon glyphicon-heart-empty";
+    }
+
   }
 
 }

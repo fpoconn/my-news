@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+a{
+    cursor: pointer; 
+}
+.fave{
+    font-size: 125%
+}
 .container-fluid {
     padding-left: 3%;
     padding-right: 10%
@@ -32,6 +38,7 @@
   width: 100%;
   margin: 0;
   color: white;
+  font-weight: 500;
   text-shadow: 0 2px 0 black;
   background: linear-gradient(
     to bottom,
@@ -59,7 +66,12 @@
     padding-bottom: 15px;
 }
 
-
+.nav-pills-style {
+    width: 120px;
+    border-left: 1px;
+    border-left-style: solid;
+    border-left-color: lightgray;
+}
 
 
 .other-stories-tiles {

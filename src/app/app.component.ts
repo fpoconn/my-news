@@ -22,8 +22,13 @@ import {TopStoriesComponent} from './top-stories.component';
       <div class="collapse navbar-collapse" id="navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li *ngFor="let keyVal of sourcesKeys" class="dropdown">
-              <a *ngIf="sourcesMap.get(keyVal) && sourcesMap.get(keyVal).length > 0" href="#" class="dropdown-toggle" data-toggle="dropdown" 
-                    role="button" aria-haspopup="true" aria-expanded="false">{{keyVal}} <span class="caret"></span></a>
+              <a *ngIf="sourcesMap.get(keyVal) && sourcesMap.get(keyVal).length > 0" href="#" 
+                class="dropdown-toggle" data-toggle="dropdown" 
+                role="button" aria-haspopup="true" aria-expanded="false">
+                    <span *ngIf="keyVal == 'Favorites'" class="glyphicon glyphicon-heart" style="font-size: 90%; color: #2196f3; margin-right: 3px;"></span>  
+                    {{keyVal}} 
+                    <span class="caret"></span>
+              </a>
               <ul class="dropdown-menu">
                 <li *ngFor="let newsSource of sourcesMap.get(keyVal)"><a (click)="selectSource(newsSource)">{{newsSource.name}}</a></li>
               </ul>
@@ -33,7 +38,7 @@ import {TopStoriesComponent} from './top-stories.component';
        
       </div>
     </nav>
-   <app-top-stories [source]="selectedSource" style="padding-top: 75px; position: absolute; width: 100%"></app-top-stories>
+   <app-top-stories (faveEvent)="updateFavorites($event)" [source]="selectedSource" style="padding-top: 75px; position: absolute; width: 100%"></app-top-stories>
   `
 
 })
@@ -64,13 +69,26 @@ export class AppComponent {
                       
                       this.sourcesMap.set(val, matchingValues);
                     }
-
                 });
 
+                this.updateFavorite();
                
           });
 
-         
+    }
+    updateFavorites(evt){
+      this.updateFavorite();
+    }
+    
+    updateFavorite(){
+      var faves = JSON.parse(localStorage.getItem("favoriteSources"));
+
+      if(faves){
+        if(!this.sourcesKeys.includes("Favorites")) {
+          this.sourcesKeys.push("Favorites");
+        }
+        this.sourcesMap.set("Favorites", faves);
+      }
 
     }
 
