@@ -25,7 +25,7 @@ import {TopStoriesComponent} from './top-stories.component';
               <a *ngIf="sourcesMap.get(keyVal) && sourcesMap.get(keyVal).length > 0" href="#" 
                 class="dropdown-toggle" data-toggle="dropdown" 
                 role="button" aria-haspopup="true" aria-expanded="false">
-                    <span *ngIf="keyVal == 'Favorites'" class="glyphicon glyphicon-heart" style="font-size: 90%; color: #2196f3; margin-right: 3px;"></span>  
+                    <span *ngIf="keyVal == FAVORITES" class="glyphicon glyphicon-heart" style="font-size: 90%; color: #2196f3; margin-right: 3px;"></span>  
                     {{keyVal}} 
                     <span class="caret"></span>
               </a>
@@ -46,6 +46,7 @@ export class AppComponent {
     title = 'POC\'s Web News!';
     selectedSection: string;
     selectedSource: any;
+    FAVORITES = "Favorites";
 
     sourcesKeys: Array<string> = ['General', 'Technology', 'Sports', 'Business', 'Science', 'Entertainment', 'Politics'];
     sourcesMap: Map<string, any> = new Map();
@@ -84,10 +85,10 @@ export class AppComponent {
       var faves = JSON.parse(localStorage.getItem("favoriteSources"));
 
       if(faves){
-        if(!this.sourcesKeys.includes("Favorites")) {
-          this.sourcesKeys.push("Favorites");
+        if(!this.sourcesKeys.includes(this.FAVORITES)) {
+          this.sourcesKeys.push(this.FAVORITES);
         }
-        this.sourcesMap.set("Favorites", faves);
+        this.sourcesMap.set(this.FAVORITES, faves);
       }
 
     }

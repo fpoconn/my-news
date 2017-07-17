@@ -16,7 +16,7 @@ import 'rxjs/add/operator/map';
                 <h4 class="media-heading">{{source.name}}</h4>
             </div>
             <div class="media-right media-middle">
-                <a class="fave" (click)="addToFavorites()" style="margin-right: 30px;">
+                <a class="fave" (click)="updateFavorites()" style="margin-right: 30px;">
                     <span id="faveToggle" [ngClass]="getFaveClass()"></span>
                 </a>
             </div>
@@ -86,6 +86,7 @@ import 'rxjs/add/operator/map';
         </div>
         <div>
             <iframe [src]="safeUrl"></iframe>
+
         </div>
     </div>
   `
@@ -112,9 +113,6 @@ export class TopStoriesComponent implements OnChanges {
         .map(res => res.json()).subscribe(res => { 
           this.articles = res.articles;
         }); 
-
-   // this.setFavoriteClass();
-
   }
 
   selectStory(article){
@@ -131,7 +129,7 @@ export class TopStoriesComponent implements OnChanges {
     this.selectedOrder = order;
   }
 
-  addToFavorites(){
+  updateFavorites(){
     var faves = JSON.parse(localStorage.getItem("favoriteSources"));
 
     if(!faves) 
@@ -140,11 +138,9 @@ export class TopStoriesComponent implements OnChanges {
     var index = faves.findIndex ( item => item.id === this.source.id);
     if(index < 0){
         faves.push(this.source);
-      //  document.getElementById("faveToggle").className = "glyphicon glyphicon-heart";
     }
     else{
         faves.splice(index, 1);
-      //  document.getElementById("faveToggle").className = "glyphicon glyphicon-heart-empty";
     }
 
     localStorage.setItem("favoriteSources", JSON.stringify(faves));
