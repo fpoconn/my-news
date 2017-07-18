@@ -109,7 +109,13 @@ export class TopStoriesComponent implements OnChanges {
       return;
     }
     this.safeUrl = undefined;
-    this._http.get('https://newsapi.org/v1/articles?source=' + this.source.id + '&apiKey=247dae28200d460dbc45f38b7ca1a8e1')
+
+    if(!this.source.sortBysAvailable.includes(this.selectedOrder)){
+        this.selectedOrder = 'top';
+    }
+    this._http.get('https://newsapi.org/v1/articles?source=' + this.source.id
+        + '&apiKey=247dae28200d460dbc45f38b7ca1a8e1'
+        + '&sortBy=' + this.selectedOrder)
         .map(res => res.json()).subscribe(res => { 
           this.articles = res.articles;
         }); 
@@ -127,6 +133,13 @@ export class TopStoriesComponent implements OnChanges {
 
   selectOrder(order){
     this.selectedOrder = order;
+
+    this._http.get('https://newsapi.org/v1/articles?source=' + this.source.id 
+        + '&apiKey=247dae28200d460dbc45f38b7ca1a8e1'
+        + '&sortBy=' + this.selectedOrder)
+        .map(res => res.json()).subscribe(res => { 
+          this.articles = res.articles;
+        }); 
   }
 
   updateFavorites(){
